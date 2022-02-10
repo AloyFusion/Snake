@@ -7,23 +7,26 @@ public class Snake extends JComponent implements Runnable {
     ArrayList <Point> points;
     KeyListener listener = new KeyListener(this);
     Point nextPoint;
+    final int HEADSTARTINGPOSX = Game.GAMEX / 2;
+    final int HEADSTARTINGPOSY = Game.GAMEY / 2;
+    final int speed = 1500;
+    int length;
     int vx = -1;
     int vy = 0;
-    int speed = 750;
-    int i = Game.GAMEX / 2;
-    int j = Game.GAMEY / 2;
 
     public Snake(JFrame jFrame) {
         jFrame.addKeyListener(listener);
 
         points = new ArrayList<Point>(Arrays.asList(
-                new Point(i, j),
-                new Point(i + 1, j),
-                new Point(i + 2, j),
-                new Point(i + 3, j)
+                new Point(HEADSTARTINGPOSX, HEADSTARTINGPOSY),
+                new Point(HEADSTARTINGPOSX + 1, HEADSTARTINGPOSY),
+                new Point(HEADSTARTINGPOSX + 2, HEADSTARTINGPOSY),
+                new Point(HEADSTARTINGPOSX + 3, HEADSTARTINGPOSY)
         ));
 
-        nextPoint = new Point(points.get(0).x, points.get(0).y - 1);
+        length = points.size() - 1;
+
+        nextPoint = new Point(points.get(0).x, points.get(0).y);
     }
 
     @Override
@@ -32,8 +35,8 @@ public class Snake extends JComponent implements Runnable {
 
         for (int i = 0 ; i < points.size() ; i++) {
             draw.setColor(Color.red);
-            if (i != 0)
-                draw.setColor(Color.blue);
+            //if (i != 0)
+                //draw.setColor(Color.blue);
             draw.fillRect(convert(points.get(i).x, "x"), convert(points.get(i).y, "y"), Game.xScale, Game.yScale);
         }
     }
@@ -49,7 +52,6 @@ public class Snake extends JComponent implements Runnable {
             shift();
             nextPoint.x += vx;
             nextPoint.y += vy;
-            points.set(0, nextPoint);
 
 
         }
@@ -60,12 +62,17 @@ public class Snake extends JComponent implements Runnable {
     private void shift() {
         for (int i = points.size() - 1 ; i >= 0 ; i--) {
             try {
-                points.set(i + 1, points.get(i));
-                System.out.println("shifted");
+                points.set(i, points.get(i - 1));
             } catch (IndexOutOfBoundsException e) {
-                points.add(points.get(i));
-                System.out.println("added");
+                points.set(i, nextPoint);
             }
+            System.out.println(points);
+        }
+        if (length < points.size() - 1) {
+            //points.remove(points.size() - 1);
+        }
+        else if (length > points.size() - 1) {
+            //points.add(new Point(-1, -1));
         }
     }
 
