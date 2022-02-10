@@ -60,16 +60,20 @@ public class Snake extends JComponent implements Runnable {
     public int convert (int i, String x) {return Game.convert(i, x);}
 
     private void shift() {
+        System.out.println(points);
         for (int i = points.size() - 1 ; i >= 0 ; i--) {
             try {
                 points.set(i, points.get(i - 1));
             } catch (IndexOutOfBoundsException e) {
                 points.set(i, nextPoint);
+                System.out.println("exception");
             }
-            System.out.println(points);
         }
+
         if (length < points.size() - 1) {
             //points.remove(points.size() - 1);
+            Game.convert()
+
         }
         else if (length > points.size() - 1) {
             //points.add(new Point(-1, -1));
