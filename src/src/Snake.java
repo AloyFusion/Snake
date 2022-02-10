@@ -26,7 +26,7 @@ public class Snake extends JComponent implements Runnable {
 
         length = points.size() - 1;
 
-        nextPoint = new Point(points.get(0).x, points.get(0).y);
+        nextPoint = new Point(points.get(0).x + vx, points.get(0).y + vy);
     }
 
     @Override
@@ -50,7 +50,6 @@ public class Snake extends JComponent implements Runnable {
                 Thread.sleep(speed);
             } catch (Exception e) {}
 
-
             shift();
             nextPoint.x += vx;
             nextPoint.y += vy;
@@ -63,7 +62,7 @@ public class Snake extends JComponent implements Runnable {
 
     private void shift() {
         System.out.println(points);
-        for (int i = points.size() - 1 ; i >= 0 ; i--) {
+        for (int i = points.size() - 1 ; i > -1 ; i--) {
             if (i == 0) {
                 points.set(i, nextPoint);
                 System.out.println("set " + i + " to nextPoint: " + nextPoint);
@@ -94,5 +93,6 @@ public class Snake extends JComponent implements Runnable {
         //}
     }
 
-    public void nextFrame() {repaint();}
+    public void nextFrame() {repaint();
+    }
 }
