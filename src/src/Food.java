@@ -7,7 +7,7 @@ public class Food extends JComponent implements Runnable {
     }
 
     @Override
-    public void paintComponents(Graphics g) {
+    public void paintComponent(Graphics g) {
         Graphics2D draw = (Graphics2D)g;
     }
 

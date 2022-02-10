@@ -1,34 +1,28 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class main {
     public static  void main(String[] args) {
         JFrame window = new JFrame();
-        Game Game = new Game();
+        Game game = new Game(window);
 
         final int FPS = 60;
         int currentFrame = 0;
 
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        window.setUndecorated(true);
         window.setResizable(false);
-        window.setTitle("Snake");
-
-        window.add(Game);
-
+        window.add(game);
         window.pack();
-
+        window.setTitle("Snake");
         window.setVisible(true);
 
-        int i = 1;
-        while (i == 1) {
+        while (true) {
             currentFrame++;
-            Game.nextFrame();
+            game.nextFrame();
             try {
                 Thread.sleep(1000/FPS);
             } catch (Exception e) {}
         }
 
-        Game.stopThread();
+        //Game.stopThread();
     }
 }
