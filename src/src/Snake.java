@@ -9,7 +9,7 @@ public class Snake extends JComponent implements Runnable {
     Point nextPoint;
     final int HEADSTARTINGPOSX = Game.GAMEX / 2;
     final int HEADSTARTINGPOSY = Game.GAMEY / 2;
-    final int speed = 1500;
+    final int speed = 500;
     int length;
     int vx = -1;
     int vy = 0;
@@ -26,7 +26,7 @@ public class Snake extends JComponent implements Runnable {
 
         length = points.size() - 1;
 
-        nextPoint = new Point(points.get(0).x + vx, points.get(0).y + vy);
+        nextPoint = new Point(points.get(0).x, points.get(0).y);
     }
 
     @Override
@@ -34,63 +34,57 @@ public class Snake extends JComponent implements Runnable {
         Graphics2D draw = (Graphics2D)g;
 
         for (int i = 0 ; i < points.size() ; i++) {
-            draw.setColor(Color.red);
+            draw.setColor(new Color(0, 0, 255));
             if (i != 0)
-                draw.setColor(Color.blue);
+                draw.setColor(new Color(100, 100, 255));
             draw.fillRect(convert(points.get(i).x, "x"), convert(points.get(i).y, "y"), Game.xScale, Game.yScale);
         }
-        draw.setColor(Color.yellow);
-        draw.fillRect(convert(points.get(0).x, "x"), convert(points.get(0).y, "y"), Game.xScale, Game.yScale);
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (Game.running) {
             try {
                 Thread.sleep(speed);
             } catch (Exception e) {}
 
             shift();
-            nextPoint.x += vx;
-            nextPoint.y += vy;
 
+            //set nextPoint
+            nextPoint.x = (nextPoint.x + vx) % Game.GAMEX;
+            nextPoint.y = (nextPoint.y + vy) % Game.GAMEY;
 
+            if (nextPoint.x < 0)
+                nextPoint.x = Game.GAMEX + nextPoint.x;
+            if (nextPoint.y < 0)
+                nextPoint.y = Game.GAMEY + nextPoint.y;
+
+            //length regulation
+            if (points.size() < length) {
+                points.add(points.get(points.size() - 1));
+            }
+
+            //crash detection
+            for (int i = 1 ; i < points.size() - 1 ; i++) {
+                if (points.get(i).equals(points.get(0)))
+                    Game.running = false;
+            }
         }
     }
 
-    public int convert (int i, String x) {return Game.convert(i, x);}
+    private int convert (int i, String x) {return Game.convert(i, x);}
 
     private void shift() {
-        System.out.println(points);
-        for (int i = points.size() - 1 ; i > -1 ; i--) {
-            if (i == 0) {
-                points.set(i, nextPoint);
-                System.out.println("set " + i + " to nextPoint: " + nextPoint);
-            }
-
-            else {
-                points.set(i, points.get(i - 1));
-                System.out.println("set " + i + " to " + points.get(i - 1));
-            }
-            /*
+        //System.out.println(points);
+        for (int i = points.size() - 1 ; i >= 0 ; i--) {
             try {
-                points.set(i, points.get(i - 1));
+                points.set(i, new Point(points.get(i - 1)));
+                //System.out.println("set " + i + " to " + points.get(i - 1));
             } catch (IndexOutOfBoundsException e) {
                 points.set(i, nextPoint);
-                System.out.println("exception");
+                //System.out.println("set " + i + " to nextPoint: " + nextPoint);
             }
-
-             */
         }
-        //points.set(0, nextPoint);
-
-        //if (length < points.size() - 1) {
-            //points.remove(points.size() - 1);
-
-        //}
-        //else if (length > points.size() - 1) {
-            //points.add(new Point(-1, -1));
-        //}
     }
 
     public void nextFrame() {repaint();

@@ -13,17 +13,26 @@ public class KeyListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        snake.vx = 0;
-        snake.vy = 0;
 
-        if (e.getKeyChar() == 'w')
+        if (e.getKeyChar() == 'w') {
+            snake.vx = 0;
             snake.vy = -1;
-        if (e.getKeyChar() == 'a')
+        }
+
+        if (e.getKeyChar() == 'a') {
             snake.vx = -1;
-        if (e.getKeyChar() == 's')
+            snake.vy = 0;
+        }
+
+        if (e.getKeyChar() == 's') {
+            snake.vx = 0;
             snake.vy = 1;
-        if (e.getKeyChar() == 'd')
+        }
+
+        if (e.getKeyChar() == 'd') {
             snake.vx = 1;
+            snake.vy = 0;
+        }
 
         System.out.println(snake.vx + " " + snake.vy);
     }

@@ -1,23 +1,52 @@
 import javax.swing.*;
 import java.awt.*;
+import java.text.ParsePosition;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Food extends JComponent implements Runnable {
-    public Food() {
+    ArrayList <Point> foods = new ArrayList();
+    Random gen = new Random();
+    Snake snake;
+    final int NUMOFFOOD = 30;
 
+    public Food(Snake snake) {
+        this.snake = snake;
+        for (int i = 0 ; i < NUMOFFOOD ; i++) {
+            foods.add(this.newFood());
+        }
+        System.out.println(foods.size());
     }
 
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D draw = (Graphics2D)g;
+
+        draw.setColor(new Color(255, 0, 0));
+        for (int i = 0 ; i < foods.size() ; i++) {
+            //System.out.println(i);
+            draw.fillRect(foods.get(i).x, foods.get(i).y, Game.xScale, Game.yScale);
+        }
     }
 
     @Override
     public void run() {
-
+        while (Game.running) {
+            for (int i = 0 ; i < foods.size() ; i++) {
+                if (foods.get(i).equals(snake.points.get(0))) {
+                    snake.length++;
+                    foods.remove(i);
+                    break;
+                }
+            }
+        }
     }
 
-    public void newFood() {
+    private int convert (int i, String x) {return Game.convert(i, x);}
 
+    private Point newFood() {
+        Point point = new Point(gen.nextInt(Game.GAMEX), gen.nextInt(Game.GAMEY));
+        return point;
     }
 
     public void nextFrame() {repaint();}
