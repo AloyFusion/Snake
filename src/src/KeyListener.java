@@ -34,7 +34,7 @@ public class KeyListener extends KeyAdapter {
             snake.vy = 0;
         }
 
-        System.out.println(snake.vx + " " + snake.vy);
+        //System.out.println(snake.vx + " " + snake.vy);
     }
 
     @Override

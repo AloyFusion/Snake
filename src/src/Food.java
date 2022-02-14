@@ -8,14 +8,13 @@ public class Food extends JComponent implements Runnable {
     ArrayList <Point> foods = new ArrayList();
     Random gen = new Random();
     Snake snake;
-    final int NUMOFFOOD = 30;
+    final int NUMOFFOOD = 1;
 
     public Food(Snake snake) {
         this.snake = snake;
         for (int i = 0 ; i < NUMOFFOOD ; i++) {
             foods.add(this.newFood());
         }
-        System.out.println(foods.size());
     }
 
     @Override
@@ -24,8 +23,7 @@ public class Food extends JComponent implements Runnable {
 
         draw.setColor(new Color(255, 0, 0));
         for (int i = 0 ; i < foods.size() ; i++) {
-            //System.out.println(i);
-            draw.fillRect(foods.get(i).x, foods.get(i).y, Game.xScale, Game.yScale);
+            draw.fillRect(this.convert(foods.get(i).x, "x"), this.convert(foods.get(i).y, "y"), Game.xScale, Game.yScale);
         }
     }
 
@@ -33,10 +31,12 @@ public class Food extends JComponent implements Runnable {
     public void run() {
         while (Game.running) {
             for (int i = 0 ; i < foods.size() ; i++) {
+                System.out.println("a");
                 if (foods.get(i).equals(snake.points.get(0))) {
+                    System.out.println("eaten");
                     snake.length++;
                     foods.remove(i);
-                    break;
+                    foods.add(newFood());
                 }
             }
         }
