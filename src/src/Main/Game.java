@@ -1,13 +1,16 @@
+package Main;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Game extends JComponent {
     //final static int SCREENWIDTH = 1920;
     //final static int SCREENHEIGHT = 1080;
-    final static int GAMEX = 15;
-    final static int GAMEY = 15;
-    final static int xScale = 50;
-    final static int yScale = 50;
+    final static int X_SCALE = 1;
+    final static int Y_SCALE = 100;
+    final static int GAMEX = 1920 / X_SCALE;
+    final static int GAMEY = 1080 / Y_SCALE;
+
     static boolean running = true;
 
     Snake snake;
@@ -16,7 +19,7 @@ public class Game extends JComponent {
     Thread TSnake, TFood;
 
     public Game(JFrame jFrame) {
-        this.setPreferredSize(new Dimension(GAMEX * xScale, GAMEY * yScale));
+        this.setPreferredSize(new Dimension(GAMEX * X_SCALE, GAMEY * Y_SCALE));
         this.setDoubleBuffered(true);
 
         //assign object
@@ -45,7 +48,7 @@ public class Game extends JComponent {
                         draw.setColor(new Color(170, 215, 81));
                     }
 
-                    draw.fillRect(Game.convert(i, "x"), Game.convert(j, "y"), xScale, yScale);
+                    draw.fillRect(Game.convert(i, "x"), Game.convert(j, "y"), X_SCALE, Y_SCALE);
                 }
             }
 
@@ -57,10 +60,10 @@ public class Game extends JComponent {
     //converts cords to pixel pos
     public static int convert(int x, String y) {
         if (y.equals("x")) {
-            return (x * xScale);
+            return (x * X_SCALE);
         }
 
-        return (x * yScale);
+        return (x * Y_SCALE);
     }
 
     public void nextFrame() {repaint();}
