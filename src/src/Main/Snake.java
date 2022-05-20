@@ -33,7 +33,7 @@ public class Snake extends JComponent implements Runnable {
         nextPoint = new Point(points.get(0).x, points.get(0).y);
 
         wrapAround = true;
-        invincible = true;
+        invincible = false;
 
         vx = -1;
         nvx = -1;
@@ -57,7 +57,7 @@ public class Snake extends JComponent implements Runnable {
     public void run() {
         while (Game.running) {
             try {
-                Thread.sleep(speed - length);
+                Thread.sleep(speed - length / 2);
             } catch (Exception e) {}
 
             shift();

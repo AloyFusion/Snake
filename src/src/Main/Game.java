@@ -6,8 +6,8 @@ import java.awt.*;
 public class Game extends JComponent {
     //final static int SCREENWIDTH = 1920;
     //final static int SCREENHEIGHT = 1080;
-    final static int X_SCALE = 1;
-    final static int Y_SCALE = 100;
+    final static int X_SCALE = 20;
+    final static int Y_SCALE = 20;
     final static int GAMEX = 1920 / X_SCALE;
     final static int GAMEY = 1080 / Y_SCALE;
 
